@@ -11,7 +11,7 @@ struct Product{
 	int status;   //trang thai(1:còn sd, 0: het han)
 };
 
-struct Transaction{ //Xuat/nhap hÃ ng
+struct Transaction{ //Xuat/nhap hang
 	char transId[20]; // Ma giao dich (Sinh ngau nhien hoac tu tang).
 	char productId[10]; // Ma hang hoa
 	char type[5];  //Kieu xuat/nhap (IN = nhap/ OUT = xuat).
@@ -179,6 +179,7 @@ int main (){
 			addProduct();
 			break;
 		case 2:
+			getchar();
 			updateProduct();
 			break;
 		case 3:
