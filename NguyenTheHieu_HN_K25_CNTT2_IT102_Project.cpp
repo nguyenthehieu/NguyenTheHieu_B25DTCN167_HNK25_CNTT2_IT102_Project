@@ -111,6 +111,7 @@ void updateProduct() {
 	printf("Nhap ma san pham can cap nhat: ");
 	fgets(id,10,stdin);
 	id[strcspn(id,"\n")]='\0';
+	
 	int found = -1;
 	
 	for(int i=0; i<productCount; i++){    //tim ID
@@ -125,26 +126,48 @@ void updateProduct() {
 	}
 	printf("<<--- CAP NHAT SAN PHAM --->>\n");
 	
-	printf("Nhap ten moi: ");
-	char newName[50];
-	fgets(newName, 50, stdin);
-	newName[strcspn(newName, "\n")] = '\0';
-	if(!isEmpty(newName))
-		strcpy(prd[found].name, newName);
+	
+    do{
+		printf("Nhap ten moi: ");
+		char newName[50];
+		fgets(newName, 50, stdin);
+		newName[strcspn(newName, "\n")] = '\0';
+	
+		if(!isEmpty(newName)){
+			strcpy(prd[found].name, newName);
+	 		break;
+	 	} else{
+        	printf("Ten khong duoc de trong!\n");
+		}
+    } while(1);
+	
+	do{
+		printf("Nhap don vi moi: ");
+		char newUnit[10];
+		fgets(newUnit, 10, stdin);
+		newUnit[strcspn(newUnit, "\n")] ='\0';
 		
-	printf("Nhap don vi moi: ");
-	char newUnit[10];
-	fgets(newUnit, 10, stdin);
-	newUnit[strcspn(newUnit, "\n")] ='\0';
-	if(!isEmpty(newUnit))
-		strcpy(prd[found].unit, newUnit);
-		
-	printf("Nhap so luong moi: ");
-	int newQty;
-	scanf("%d",&newQty);
-	getchar();
-	if(newQty>=0)
-		prd[found].qty = newQty;
+		if(!isEmpty(newUnit)){
+			strcpy(prd[found].unit, newUnit);
+			break;
+		} else {
+        	printf("Don vi tinh khong duoc de trong!\n");	
+		}	
+	} while(1);
+	
+	do{
+		printf("Nhap so luong moi: ");
+		int newQty;
+		scanf("%d",&newQty);
+		getchar();
+		if(newQty>=0){
+			prd[found].qty = newQty;
+			break;
+		} else{
+        	printf("So luong phai >= 0!\n");
+        }
+    
+	} while(1);
 		
 	printf("Nhap trang thai moi (1-Con su dung, 0-Het han): ");
 	int newStatus;
