@@ -3,6 +3,15 @@
 #define MAX_Products 100
 #define MAX_Transaction 200
 
+//nguyen mau ham
+void addProduct();
+void updateProduct();
+void managementStatus();
+void searchProduct();
+
+int isEmpty(char str[]);
+int isDuplicateId(char id[]); 
+
 struct Product{
 	char productId[10];   // ma hang hoa
 	char name[50];     // ten hang hoa
