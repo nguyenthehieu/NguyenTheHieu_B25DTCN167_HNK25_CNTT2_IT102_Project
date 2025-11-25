@@ -155,10 +155,7 @@ void addProduct() {
 
         } while (prd[productCount].qty < 0);
 
-        printf("Trang thai (1: con sd, 0: het han): ");
-        scanf("%d", &prd[productCount].status);
-        getchar();
-
+        prd[productCount].status = 1 ;
         productCount++;
     }
 
@@ -253,13 +250,13 @@ void managementStatus(){
 		printf("Khong ton tai trong danh sach.\n");
 		return;
 	}
-	printf("Nhap trang thai moi (1-Con su dung, 0-Het han): ");
-	int newStatus;
-	scanf("%d",&newStatus);
-	getchar();
-	prd[found].status = newStatus;
-	
-	printf("<<---Cap nhat hang hoa thanh cong--->>\n");
+
+	if(prd[found].status == 1){
+		prd[found].status = 0;
+		printf("<<---Cap nhat hang hoa thanh cong--->>\n");
+	} else {
+		printf("<<--- Hang hoa da bi khoa --->>\n");
+	}
 }
 
 //4. TIM KIEM HANG HOA
@@ -274,7 +271,7 @@ void searchProduct(){
 	printf("\n<<--- Thong tin san pham --->>\n");
 	
 	for(int i=0; i<productCount; i++){    
-		if( strcmp(key, prd[i].productId) == 0 || strstr(key, prd[i].name) != NULL){
+		if( strcmp(key, prd[i].productId) == 0 || strstr(prd[i].name, key) != NULL){
 			printf("| %s | %s | %s | %d | %s |\n", prd[i].productId, prd[i].name, 
 			prd[i].unit, prd[i].qty, prd[i].status == 1 ? "Con su dung" : "Het han");
 			found = 1;
