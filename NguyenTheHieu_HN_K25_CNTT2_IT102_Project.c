@@ -32,6 +32,57 @@ struct Transaction trans[MAX_Transaction];
 int productCount = 0; // dem so hang hoa
 int transCount = 0;
 
+int main (){
+	int choice;
+
+	while(1){
+	printf("\n+----------QUAN LY HANG HOA----------+\n");
+	printf("1. Them ma hang moi.     	 	    \n");
+	printf("2. Cap nhat thong tin.              \n");
+	printf("3. Quan ly trang thai.   \n");
+	printf("4. Tra cuu san pham.                \n");
+	printf("5. Dang sach (Phan trang).          \n");
+	printf("6. Sap xep danh sach.              \n");
+	printf("7. Giao dich xuat/nhap hang hoa.    \n");
+	printf("8. Lich su xuat/nhap.               \n");
+	printf("+------------------------------------+\n");
+
+	printf("\nMoi ban nhap lua chon: ");
+	scanf("%d",&choice);
+
+	switch(choice){
+		case 1:
+			addProduct();
+			break;
+		case 2:
+			getchar();
+			updateProduct();
+			break;
+		case 3:
+			getchar();
+			managementStatus();
+			break;
+		case 4:
+			getchar();
+			searchProduct();
+			break;
+		case 5:
+			break;
+		case 6:
+			break;
+		case 7:
+			break;
+		case 8:
+			break;
+
+		default:
+			printf("Lua chon khong hop le. \n");
+			return 0;
+	}
+	}
+	return 0;
+}
+
 //kiem tra du lieu
 int isEmpty(char str[]) { // kiem tra chuoi rong
     return strlen(str) == 0;
@@ -234,53 +285,3 @@ void searchProduct(){
 	}
 
 
-int main (){
-	int choice;
-
-	while(1){
-	printf("\n+----------QUAN LY HANG HOA----------+\n");
-	printf("1. Them ma hang moi.     	 	    \n");
-	printf("2. Cap nhat thong tin.              \n");
-	printf("3. Quan ly trang thai.   \n");
-	printf("4. Tra cuu san pham.                \n");
-	printf("5. Dang sach (Phan trang).          \n");
-	printf("6. Sap xep danh sach.              \n");
-	printf("7. Giao dich xuat/nhap hang hoa.    \n");
-	printf("8. Lich su xuat/nhap.               \n");
-	printf("+------------------------------------+\n");
-
-	printf("\nMoi ban nhap lua chon: ");
-	scanf("%d",&choice);
-
-	switch(choice){
-		case 1:
-			addProduct();
-			break;
-		case 2:
-			getchar();
-			updateProduct();
-			break;
-		case 3:
-			getchar();
-			managementStatus();
-			break;
-		case 4:
-			getchar();
-			searchProduct();
-			break;
-		case 5:
-			break;
-		case 6:
-			break;
-		case 7:
-			break;
-		case 8:
-			break;
-
-		default:
-			printf("Lua chon khong hop le. \n");
-			return 0;
-	}
-	}
-	return 0;
-}
