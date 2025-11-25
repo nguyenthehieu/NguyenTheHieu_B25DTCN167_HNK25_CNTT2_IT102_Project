@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<string.h>
+#include<ctype.h>
 #define MAX_Products 100
 #define MAX_Transaction 200
 
@@ -11,6 +12,7 @@ void searchProduct();
 
 int isEmpty(char str[]);
 int isDuplicateId(char id[]); 
+void toLowerCase(char str[]);
 
 struct Product{
 	char productId[10];   // ma hang hoa
@@ -260,18 +262,42 @@ void managementStatus(){
 }
 
 //4. TIM KIEM HANG HOA
+
+// doi chuoi chu hoa thanh chu thuong
+void toLowerCase(char str[]) {
+    for (int i = 0; str[i] != '\0'; i++) {
+        str[i] = tolower(str[i]);
+    }
+}
+
 void searchProduct(){
 	char key[50];
+	char keyLower[50], nameLower[50], idLower[10];
+	
 	printf("<<----- TIM KIEM HANG HOA ----->>\n");
 	printf("Nhap ma hoac ten san pham can tim: ");
 	fgets(key,50,stdin);
 	key[strcspn(key,"\n")]='\0';
 	
+	if (isEmpty(key)) {
+    	printf("Khong duoc de trong.\n");
+    		return;
+    }
+    
+	strcpy(keyLower, key);
+	toLowerCase(keyLower);
+	
 	int found = 0;
 	printf("\n<<--- Thong tin san pham --->>\n");
 	
-	for(int i=0; i<productCount; i++){    
-		if( strcmp(key, prd[i].productId) == 0 || strstr(prd[i].name, key) != NULL){
+	for(int i=0; i<productCount; i++){ 
+		strcpy(nameLower, prd[i].name);
+		toLowerCase(nameLower);
+		
+		strcpy(idLower, prd[i].productId);
+		toLowerCase(idLower);
+		   
+		if( strcmp(keyLower, idLower) == 0 || strstr(nameLower, keyLower) != NULL){
 			printf("| %s | %s | %s | %d | %s |\n", prd[i].productId, prd[i].name, 
 			prd[i].unit, prd[i].qty, prd[i].status == 1 ? "Con su dung" : "Het han");
 			found = 1;
@@ -280,5 +306,3 @@ void searchProduct(){
 	if(!found)
 		printf("Khong tim thay thong tin nao.\n");	
 	}
-
-
