@@ -108,6 +108,7 @@ void addProduct() {
 //2. CAP NHAT SAN PHAM
 void updateProduct() {
 	char id[10];
+	printf("<<----- CAP NHAT SAN PHAM ----->>\n");
 	printf("Nhap ma san pham can cap nhat: ");
 	fgets(id,10,stdin);
 	id[strcspn(id,"\n")]='\0';
@@ -168,14 +169,59 @@ void updateProduct() {
         }
     
 	} while(1);
-		
+	
+	printf("<<---Cap nhat thanh cong--->>\n");
+	}
+
+//3. QUAN LY TRANG THAI
+void managementStatus(){
+	char id[10];
+	printf("<<----- QUAN LY TRANG THAI ----->>\n");
+	printf("Nhap ma san pham can doi trang thai: ");
+	fgets(id,10,stdin);
+	id[strcspn(id,"\n")]='\0';
+	
+	int found = -1;
+	
+	for(int i=0; i<productCount; i++){    //tim ID
+		if( strcmp(id, prd[i].productId) == 0){
+			found = i;
+			break;
+		}
+	}	
+	if (found == -1){
+		printf("Khong ton tai trong danh sach.\n");
+		return;
+	}
 	printf("Nhap trang thai moi (1-Con su dung, 0-Het han): ");
 	int newStatus;
 	scanf("%d",&newStatus);
 	getchar();
 	prd[found].status = newStatus;
 	
-	printf("<<---Cap nhat thanh cong--->>\n");
+	printf("<<---Cap nhat hang hoa thanh cong--->>\n");
+}
+
+//4. TIM KIEM HANG HOA
+void searchProduct(){
+	char key[50];
+	printf("<<----- TIM KIEM HANG HOA ----->>\n");
+	printf("Nhap ma hoac ten san pham can tim: ");
+	fgets(key,50,stdin);
+	key[strcspn(key,"\n")]='\0';
+	
+	int found = 0;
+	printf("\n<<--- Thong tin san pham --->>\n");
+	
+	for(int i=0; i<productCount; i++){    
+		if( strcmp(key, prd[i].productId) == 0 || strstr(key, prd[i].name) != NULL){
+			printf("| %s | %s | %s | %d | %s |\n", prd[i].productId, prd[i].name, 
+			prd[i].unit, prd[i].qty, prd[i].status == 1 ? "Con su dung" : "Het han");
+			found = 1;
+		} 
+	}
+	if(!found)
+		printf("Khong tim thay thong tin nao.\n");	
 	}
 
 
@@ -183,10 +229,10 @@ int main (){
 	int choice;
 
 	while(1){
-	printf("+----------QUAN LY HANG HOA----------+\n");
+	printf("\n+----------QUAN LY HANG HOA----------+\n");
 	printf("1. Them ma hang moi.     	 	    \n");
 	printf("2. Cap nhat thong tin.              \n");
-	printf("3. Quan ly trang thai (Khoa/Xoa).   \n");
+	printf("3. Quan ly trang thai.   \n");
 	printf("4. Tra cuu san pham.                \n");
 	printf("5. Dang sach (Phan trang).          \n");
 	printf("6. Sap xep danh sach.              \n");
@@ -194,7 +240,7 @@ int main (){
 	printf("8. Lich su xuat/nhap.               \n");
 	printf("+------------------------------------+\n");
 
-	printf("Moi ban nhap lua chon: ");
+	printf("\nMoi ban nhap lua chon: ");
 	scanf("%d",&choice);
 
 	switch(choice){
@@ -206,8 +252,12 @@ int main (){
 			updateProduct();
 			break;
 		case 3:
+			getchar();
+			managementStatus();
 			break;
 		case 4:
+			getchar();
+			searchProduct();
 			break;
 		case 5:
 			break;
