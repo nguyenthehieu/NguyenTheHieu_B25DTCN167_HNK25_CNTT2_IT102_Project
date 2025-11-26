@@ -9,6 +9,8 @@ void addProduct();
 void updateProduct();
 void managementStatus();
 void searchProduct();
+void listProduct();
+void sortingProduct();
 
 int isEmpty(char str[]);
 int isDuplicateId(char id[]); 
@@ -36,7 +38,7 @@ int transCount = 0;
 
 int main (){
 	int choice;
-
+	
 	while(1){
 	printf("\n+----------QUAN LY HANG HOA----------+\n");
 	printf("1. Them ma hang moi.     	 	    \n");
@@ -51,7 +53,7 @@ int main (){
 
 	printf("\nMoi ban nhap lua chon: ");
 	scanf("%d",&choice);
-
+	
 	switch(choice){
 		case 1:
 			addProduct();
@@ -69,8 +71,12 @@ int main (){
 			searchProduct();
 			break;
 		case 5:
+			getchar();
+			listProduct();
 			break;
 		case 6:
+			getchar();
+			sortingProduct();
 			break;
 		case 7:
 			break;
@@ -289,6 +295,8 @@ void searchProduct(){
 	
 	int found = 0;
 	printf("\n<<--- Thong tin san pham --->>\n");
+	printf("| %-10s | %-20s | %-8s | %-5s | %-12s |\n",
+        "ID", "Ten SP", "Don vi", "SL", "Trang thai");
 	
 	for(int i=0; i<productCount; i++){ 
 		strcpy(nameLower, prd[i].name);
@@ -298,7 +306,7 @@ void searchProduct(){
 		toLowerCase(idLower);
 		   
 		if( strcmp(keyLower, idLower) == 0 || strstr(nameLower, keyLower) != NULL){
-			printf("| %s | %s | %s | %d | %s |\n", prd[i].productId, prd[i].name, 
+			printf("| %-10s | %-20s | %-8s | %-5d | %-12s |\n", prd[i].productId, prd[i].name, 
 			prd[i].unit, prd[i].qty, prd[i].status == 1 ? "Con su dung" : "Het han");
 			found = 1;
 		} 
@@ -306,3 +314,110 @@ void searchProduct(){
 	if(!found)
 		printf("Khong tim thay thong tin nao.\n");	
 	}
+
+//5. DANH SACH (PHAN TRANG)
+void listProduct(){
+	if(productCount==0){
+		printf("\nDang sach rong. Nhap hang hoa truoc.\n");
+		return;
+	}
+	printf("<<------DANH SACH------>>\n");
+	int page = 1;
+	int perPage = 10;
+	int index;
+	
+	while(1){
+		index = (page - 1)*perPage;
+		
+		if(index>=productCount){
+			printf("Het san pham.\n");
+			return;
+		}
+		printf("------Trang %d-----\n", page);
+		printf("| %-10s | %-20s | %-8s | %-5s | %-12s |\n",
+               "ID", "Ten SP", "Don vi", "SL", "Trang thai");
+
+		for(int i=index; i<index+perPage && i<productCount; i++){
+			printf("| %-10s | %-20s | %-8s | %-5d | %-12s |\n", prd[i].productId, prd[i].name, 
+			prd[i].unit, prd[i].qty, prd[i].status == 1 ? "Con su dung" : "Het han");
+		} 
+		int choice;
+		printf("Xem tiep danh sach?\n 1. Co\n 2.Khong ");
+		printf("\nLua chon cua ban: ");
+		scanf("%d",&choice);
+	
+		if(choice == 1){
+			printf("Nhap so trang muon xem: ");
+			scanf("%d",&page);
+			getchar();
+		} else if(choice==2){
+			printf("Dung xem dach sach.\n");
+			return;
+		} else {
+			printf("Lua chon khong hop le.\n");
+		}
+	}
+}
+
+//6. SAP XEP
+void sortingProduct(){
+	int choice;
+	
+	if(productCount == 0){
+		printf("Danh sach rong. Nhap hang hoa truoc.\n");
+		return;
+	}
+	
+	while(1){
+		printf("Chon cach sap xep danh sach\n");
+		printf("1. Sap xep theo ten \n");
+		printf("2. Sap xep theo so luong\n");
+		printf("Nhap lua chon: ");
+		scanf("%d",&choice);
+		getchar();
+		
+		if(choice == 1){
+			for (int i = 0; i<productCount; i++){
+				for( int j = i+1; j<productCount; j++){
+					if(strcmp(prd[i].name,prd[j].name) > 0){
+						struct Product temp = prd[i];
+						prd[i] = prd[j];
+						prd[j] = temp;
+					}
+				}	
+			} 
+			printf("<<---Sap xep thanh cong--->>\n");
+			printf("<<------DANH SACH------>>\n");
+			printf("| %-10s | %-20s | %-8s | %-5s | %-12s |\n",
+               "ID", "Ten SP", "Don vi", "SL", "Trang thai");
+			for(int i = 0; i<productCount; i++){
+				printf("| %-10s | %-20s | %-8s | %-5d | %-12s |\n", prd[i].productId, prd[i].name, 
+				prd[i].unit, prd[i].qty, prd[i].status == 1 ? "Con su dung" : "Het han");
+			}	
+			break;			
+		} 
+		else if(choice == 2){
+			for (int i = 0; i<productCount; i++){
+				for( int j = i+1; j<productCount; j++){
+					if(prd[i].qty > prd[j].qty){
+						struct Product temp = prd[i];
+						prd[i] = prd[j];
+						prd[j] = temp;
+					}
+				}	
+			} 
+			printf("<<---Sap xep thanh cong--->>\n");
+			printf("<<------DANH SACH------>>\n");
+			printf("| %-10s | %-20s | %-8s | %-5s | %-12s |\n",
+               "ID", "Ten SP", "Don vi", "SL", "Trang thai");
+			for(int i = 0; i<productCount; i++){
+				printf("| %-10s | %-20s | %-8s | %-5d | %-12s |\n", prd[i].productId, prd[i].name, 
+				prd[i].unit, prd[i].qty, prd[i].status == 1 ? "Con su dung" : "Het han");
+				}
+			break;
+		} 
+		else{ 
+			printf("Lua chon khong hop le.\n");
+		}
+	}
+}
