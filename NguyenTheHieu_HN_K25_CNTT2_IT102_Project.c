@@ -33,7 +33,7 @@ struct Transaction{ //Xuat/nhap hang
 
 struct Product prd[MAX_Products];
 struct Transaction trans[MAX_Transaction];
-int productCount = 0; // dem so hang hoa
+int productCount = 15; // dem so hang hoa
 int transCount = 0;
 
 int main (){
@@ -90,6 +90,24 @@ int main (){
 	}
 	return 0;
 }
+
+struct Product prd[MAX_Products] = {
+    {"SP001", "Sua tuoi Vinamilk", "Hop", 120, 1},
+    {"SP002", "Mi Hao Hao", "Goi", 350, 1},
+    {"SP003", "Nuoc tuong Chinsu", "Chai", 80, 1},
+    {"SP004", "Duong tinh luyen", "Kg", 45, 1},
+    {"SP005", "Gao ST25", "Kg", 200, 1},
+    {"SP006", "Nuoc ngot Coca", "Lon", 500, 1},
+    {"SP007", "Banh Oreo", "Hop", 90, 1},
+    {"SP008", "Dau an Tuong An", "Lit", 60, 1},
+    {"SP009", "Ca phe Trung Nguyen", "Goi", 120, 1},
+    {"SP010", "Kem danh rang P/S", "Tuy", 150, 1},
+    {"SP011", "Bot ngot Ajinomoto", "Goi", 75, 1},
+    {"SP012", "Trung ga CP", "Vi", 300, 1},
+    {"SP013", "Nuoc loc Aquafina", "Chai", 400, 1},
+    {"SP014", "Bia Heineken", "Lon", 250, 1},
+    {"SP015", "Banh mi chuot", "Cai", 180, 1}
+};
 
 //kiem tra du lieu
 int isEmpty(char str[]) { // kiem tra chuoi rong
@@ -387,13 +405,7 @@ void sortingProduct(){
 				}	
 			} 
 			printf("<<---Sap xep thanh cong--->>\n");
-			printf("<<------DANH SACH------>>\n");
-			printf("| %-10s | %-20s | %-8s | %-5s | %-12s |\n",
-               "ID", "Ten SP", "Don vi", "SL", "Trang thai");
-			for(int i = 0; i<productCount; i++){
-				printf("| %-10s | %-20s | %-8s | %-5d | %-12s |\n", prd[i].productId, prd[i].name, 
-				prd[i].unit, prd[i].qty, prd[i].status == 1 ? "Con su dung" : "Het han");
-			}	
+			listProduct();
 			break;			
 		} 
 		else if(choice == 2){
@@ -407,13 +419,7 @@ void sortingProduct(){
 				}	
 			} 
 			printf("<<---Sap xep thanh cong--->>\n");
-			printf("<<------DANH SACH------>>\n");
-			printf("| %-10s | %-20s | %-8s | %-5s | %-12s |\n",
-               "ID", "Ten SP", "Don vi", "SL", "Trang thai");
-			for(int i = 0; i<productCount; i++){
-				printf("| %-10s | %-20s | %-8s | %-5d | %-12s |\n", prd[i].productId, prd[i].name, 
-				prd[i].unit, prd[i].qty, prd[i].status == 1 ? "Con su dung" : "Het han");
-				}
+			listProduct();
 			break;
 		} 
 		else{ 
