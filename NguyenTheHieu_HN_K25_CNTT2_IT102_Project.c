@@ -12,6 +12,7 @@ void searchProduct();
 void listProduct();
 void sortingProduct();
 void transactionProduct();
+void historyTransaction();
 
 int isEmpty(char str[]);
 int isDuplicateId(char id[]); 
@@ -84,6 +85,8 @@ int main (){
 			transactionProduct();
 			break;
 		case 8:
+			getchar();
+			void historyTransaction();
 			break;
 
 		default:
@@ -432,96 +435,91 @@ void sortingProduct(){
 }
 
 //7. GIAO DICH NHAP/XUAT
-void transactionProduct(){
-	char id[10];
-	char type[5];
-	int amount;
-	int success = 0;
-	
-	printf("<<----- GIAO DICH NHAP/XUAT ----->>\n");
-	
-	printf("Chon giao dich IN/OUT: ");
-	fgets(type,5,stdin);
-	type[strcspn(type,"\n")] = '\0';
-	
-	if(strcmp(type,"IN") || strcmp(type,"in")){
-		printf("Nhap ID san pham can nhap: ");
-		fgets(id,10,stdin);
-		id[strcspn(id,"\n")] = '\0';
-		
-		if(isEmpty(id)){
-			printf("ID khong duoc de trong.\n");
-			return;
-		}
-		int found = -1;
-		for(int i = 0; i<productCount; i++){
-			if(strcmp(prd[i].productId, id) ==0 ) {
-				found = i;
-				break;
-			}
-		}
-		if(found == -1){
-			printf("Khong tim thay san pham.\n");
-			return;
-		}
-		if(prd[found].status == 0){
-			printf("San pham dang bi khoa, khong the giao dich.\n");
-			return;
-		}
-		printf("Nhap so luong nhap: ");
-		scanf("%d",&amount);
-		getchar();
-		
-		if(amount <= 0 ){
-			printf("So luong phai >0\n");
-			return;
-		} 
-		else {
-			prd[found].qty += amount;
-			printf("===>> Nhap hang hoa thanh cong.\n");
-			success = 1;
-		}  
-	}
-	else if (strcmp(type,"OUT") || strcmp(type,"out")){
-			printf("Nhap ID san pham can xuat: ");
-		fgets(id,10,stdin);
-		id[strcspn(id,"\n")] = '\0';
-		
-		if(isEmpty(id)){
-			printf("ID khong duoc de trong.\n");
-			return;
-		}
-		int found = -1;
-		for(int i = 0; i<productCount; i++){
-			if(strcmp(prd[i].productId, id) ==0 ) {
-				found = i;
-				break;
-			}
-		}
-		if(found == -1){
-			printf("Khong tim thay san pham.\n");
-			return;
-		}
-		if(prd[found].status == 0){
-			printf("San pham dang bi khoa, khong the giao dich.\n");
-			return;
-		}
-		printf("Nhap so luong xuat: ");
-		scanf("%d",&amount);
-		getchar();	
-		
-		if(amount>prd[found].qty){
-			printf("So luong xuat hang hoa vuot qua so luong hien co.\n");
-		} else{
-			prd[found].qty -= amount;
-			printf("===>> Xuat hang hoa thanh cong.\n");
-			success = 1;
-		}
-	}
-	if(success == 1){
-	strcpy(trans[transCount].productId, id);
-    strcpy(trans[transCount].type, type);
-    strcpy(trans[transCount].date, "27/11/2025");
-    transCount++;
+void transactionProduct() {
+    char id[10];
+    char type[5];
+    int amount;
+    int found = -1;
+    int success = 0;
+
+    printf("\n<<----- GIAO DICH NHAP/XUAT ----->>\n");
+
+    printf("Chon giao dich (IN/OUT): ");
+    fgets(type, 5, stdin);
+    type[strcspn(type, "\n")] = '\0';
+
+    // chuyen ve cung dang chu hoa
+    for (int i = 0; type[i] != '\0'; i++) {
+        type[i] = toupper(type[i]);
     }
+
+    if (strcmp(type, "IN") != 0 && strcmp(type, "OUT") != 0) {
+        printf("Loai giao dich khong hop le. Chi chap nhan IN/OUT.\n");
+        return;
+    }
+
+    printf("Nhap ID san pham: ");
+    fgets(id, 10, stdin);
+    id[strcspn(id, "\n")] = '\0';
+
+    if (isEmpty(id)) {
+        printf("ID khong duoc de trong.\n");
+        return;
+    }
+
+    for (int i = 0; i < productCount; i++) {
+        if (strcmp(prd[i].productId, id) == 0) {
+            found = i; //luu vi tri phan tu duoc tim thay
+            break;
+        }
+    }
+
+    if (found == -1) {
+        printf("Khong tim thay san pham.\n");
+        return;
+    }
+
+    if (prd[found].status == 0) {
+        printf("San pham dang bi khoa, khong the giao dich.\n");
+        return;
+    }
+
+    printf("Nhap so luong: ");
+    scanf("%d", &amount);
+    getchar();
+
+    if (amount <= 0) {
+        printf("So luong phai lon hon 0.\n");
+        return;
+    }
+
+    // nhap hang
+    if (strcmp(type, "IN") == 0) {
+        prd[found].qty += amount;
+        printf("===>> Nhap hang thanh cong!\n");
+        success = 1;
+    }
+
+    // xuat hang
+    else if (strcmp(type, "OUT") == 0) {
+        if (amount > prd[found].qty) {
+            printf("So luong xuat vuot qua ton kho!\n");
+            return;
+        }
+        prd[found].qty -= amount;
+        printf("===>> Xuat hang thanh cong!\n");
+        success = 1;
+    }
+
+    //luu lich su
+    if (success) {
+        strcpy(trans[transCount].productId, id);
+        strcpy(trans[transCount].type, type);
+        strcpy(trans[transCount].date, "27/11/2025");
+        transCount++;
+    }
+}
+
+//8. LICH SU NHAP/XUAT
+void historyTransaction(){
 }
