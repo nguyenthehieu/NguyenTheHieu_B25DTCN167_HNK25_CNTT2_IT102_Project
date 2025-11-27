@@ -86,7 +86,7 @@ int main (){
 			break;
 		case 8:
 			getchar();
-			void historyTransaction();
+			historyTransaction();
 			break;
 
 		default:
@@ -522,4 +522,44 @@ void transactionProduct() {
 
 //8. LICH SU NHAP/XUAT
 void historyTransaction(){
+    char id[10];
+    int found = 0;       // kiem tra co giao dich không
+    int index = 0;
+
+    printf("\n<<----- LICH SU GIAO DICH ----->>\n");
+
+    printf("Nhap ID san pham: ");
+    fgets(id, 10, stdin);
+    id[strcspn(id, "\n")] = '\0';
+
+    if(isEmpty(id)){
+        printf("ID khong duoc de trong!\n");
+        return;
+    }
+
+    printf("\n<<--- Lich su giao dich cua ma hang %s --->>\n", id);
+
+    // duyet toan bo transaction
+    for(int i = 0; i < transCount; i++){
+        if(strcmp(trans[i].productId, id) == 0){
+            // in tiêu d? 1 l?n khi g?p giao d?ch d?u tiên
+            if(found == 0){
+                printf("| %-10s | %-10s | %-8s | %-12s |\n",
+                       "Ma GD", "Ma SP", "Loai", "Ngay");
+            }
+
+            printf("| %-10s | %-10s | %-8s | %-12s |\n",
+                   trans[i].transId,
+                   trans[i].productId,
+                   trans[i].type,
+                   trans[i].date);
+
+            found = 1;
+        }
+    }
+
+    if(!found){
+        printf("Thong bao: Voi ma hang '%s' chua co giao dich nhap/xuat.\n", id);
+    }
 }
+
