@@ -214,7 +214,7 @@ void updateProduct() {
 		printf("Khong tim thay.\n");
 		return;
 	}
-	printf("<<--- CAP NHAT SAN PHAM --->>\n");
+	printf("\n<<--- CAP NHAT SAN PHAM --->>\n");
 	
 	
     do{
@@ -513,6 +513,7 @@ void transactionProduct() {
 
     //luu lich su
     if (success) {
+    	sprintf(trans[transCount].transId, "GD%03d", transCount + 1);
         strcpy(trans[transCount].productId, id);
         strcpy(trans[transCount].type, type);
         strcpy(trans[transCount].date, "27/11/2025");
@@ -542,7 +543,7 @@ void historyTransaction(){
     // duyet toan bo transaction
     for(int i = 0; i < transCount; i++){
         if(strcmp(trans[i].productId, id) == 0){
-            // in tiêu d? 1 l?n khi g?p giao d?ch d?u tiên
+            // in khi gap giao dich dau tien
             if(found == 0){
                 printf("| %-10s | %-10s | %-8s | %-12s |\n",
                        "Ma GD", "Ma SP", "Loai", "Ngay");
@@ -559,7 +560,7 @@ void historyTransaction(){
     }
 
     if(!found){
-        printf("Thong bao: Voi ma hang '%s' chua co giao dich nhap/xuat.\n", id);
+        printf("Ma hang '%s' chua co giao dich NHAP/XUAT.\n", id);
     }
 }
 
