@@ -107,7 +107,7 @@ struct Product prd[MAX_Products] = {
     {"P007", "Banh Oreo", "Hop", 90, 1},
     {"P008", "Dau an Tuong An", "Lit", 60, 1},
     {"P009", "Ca phe Trung Nguyen", "Goi", 120, 1},
-    {"P010", "Kem danh rang P/S", "Tuy", 150, 1},
+    {"P010", "Kem danh rang P/S", "Tuyp", 150, 1},
     {"P011", "Bot ngot Ajinomoto", "Goi", 75, 1},
     {"P012", "Trung ga CP", "Vi", 300, 1},
     {"P013", "Nuoc loc Aquafina", "Chai", 400, 1},
@@ -197,7 +197,7 @@ void addProduct() {
 //2. CAP NHAT SAN PHAM
 void updateProduct() {
 	char id[10];
-	printf("<<----- CAP NHAT SAN PHAM ----->>\n");
+	printf("\n<<----- CAP NHAT SAN PHAM ----->>\n");
 	printf("Nhap ma san pham can cap nhat: ");
 	fgets(id,10,stdin);
 	id[strcspn(id,"\n")]='\0';
@@ -214,8 +214,6 @@ void updateProduct() {
 		printf("Khong tim thay.\n");
 		return;
 	}
-	printf("\n<<--- CAP NHAT SAN PHAM --->>\n");
-	
 	
     do{
 		printf("Nhap ten moi: ");
@@ -304,7 +302,7 @@ void searchProduct(){
 	char key[50];
 	char keyLower[50], nameLower[50], idLower[10];
 	
-	printf("<<----- TIM KIEM HANG HOA ----->>\n");
+	printf("\n<<----- TIM KIEM HANG HOA ----->>\n");
 	printf("Nhap ma hoac ten san pham can tim: ");
 	fgets(key,50,stdin);
 	key[strcspn(key,"\n")]='\0';
@@ -345,7 +343,7 @@ void listProduct(){
 		printf("\nDang sach rong. Nhap hang hoa truoc.\n");
 		return;
 	}
-	printf("<<------DANH SACH------>>\n");
+	printf("\n<<------DANH SACH------>>\n");
 	int page = 1;
 	int perPage = 10;
 	int index;
@@ -401,6 +399,7 @@ void sortingProduct(){
 		getchar();
 		
 		if(choice == 1){
+			printf("\n<<-----SAP XEP THEO TEN----->>\n");
 			for (int i = 0; i<productCount; i++){
 				for( int j = i+1; j<productCount; j++){
 					if(strcmp(prd[i].name,prd[j].name) > 0){
@@ -415,6 +414,7 @@ void sortingProduct(){
 			break;			
 		} 
 		else if(choice == 2){
+			printf("\n<<-----SAP XEP THEO SO LUONG----->>\n");
 			for (int i = 0; i<productCount; i++){
 				for( int j = i+1; j<productCount; j++){
 					if(prd[i].qty > prd[j].qty){
@@ -483,33 +483,32 @@ void transactionProduct() {
         printf("San pham dang bi khoa, khong the giao dich.\n");
         return;
     }
+	do {
+	    printf("Nhap so luong: ");
+	    scanf("%d", &amount);
+	    getchar();
+	
+        if (amount <= 0)
+			printf("So luong phai lon hon 0!\n");
+	        else break;
+	
+	    } while (1);
+	
+	    // Xu ly nhap hang
+	    if (strcmp(type, "IN") == 0) {
+	        prd[found].qty += amount;
+	        printf("===>> Nhap hang thanh cong!\n");
+	    }
+	    // Xu ly xuat hang
+	    else if (strcmp(type, "OUT") == 0) {
+	        if (amount > prd[found].qty) {
+	            printf("So luong xuat vuot qua ton kho!\n");
+	            return;
+	        }
+	        prd[found].qty -= amount;
+	        printf("===>> Xuat hang thanh cong!\n");
+	    }
 
-    printf("Nhap so luong: ");
-    scanf("%d", &amount);
-    getchar();
-
-    if (amount <= 0) {
-        printf("So luong phai lon hon 0.\n");
-        return;
-    }
-
-    // nhap hang
-    if (strcmp(type, "IN") == 0) {
-        prd[found].qty += amount;
-        printf("===>> Nhap hang thanh cong!\n");
-        success = 1;
-    }
-
-    // xuat hang
-    else if (strcmp(type, "OUT") == 0) {
-        if (amount > prd[found].qty) {
-            printf("So luong xuat vuot qua ton kho!\n");
-            return;
-        }
-        prd[found].qty -= amount;
-        printf("===>> Xuat hang thanh cong!\n");
-        success = 1;
-    }
 
     //luu lich su
     if (success) {
