@@ -23,7 +23,7 @@ struct Product{
 	char name[50];     // ten hang hoa
 	char unit[10];   // don vi
 	int qty;      // so luong ton kho
-	int status;   //trang thai(1:còn sd, 0: het han)
+	int status;   //trang thai(1:c?n sd, 0: het han)
 };
 
 struct Transaction{ //Xuat/nhap hang
@@ -36,7 +36,7 @@ struct Transaction{ //Xuat/nhap hang
 struct Product prd[MAX_Products];
 struct Transaction trans[MAX_Transaction];
 int productCount = 15; // dem so hang hoa
-int transCount = 0;
+int transCount = 0; // dem so giao dich
 
 int main (){
 	int choice;
@@ -149,10 +149,12 @@ void addProduct() {
             fgets(prd[productCount].productId, 10, stdin);
             prd[productCount].productId[strcspn(prd[productCount].productId, "\n")] = '\0';
 
-            if (isEmpty(prd[productCount].productId))
+            if (isEmpty(prd[productCount].productId)){
                 printf("ID khong duoc trong\n");
-            else if (isDuplicateId(prd[productCount].productId))
+            }    
+            else if (isDuplicateId(prd[productCount].productId)){
                 printf("ID da ton tai, nhap ID khac!\n");
+                }
             else break;
 
         } while (1);
@@ -165,7 +167,7 @@ void addProduct() {
             if (isEmpty(prd[productCount].name))
                 printf("Ten khong duoc de trong!\n");
 
-        } while (isEmpty(prd[productCount].name));
+        } while (isEmpty(prd[productCount].name));  // lap lai den khi ten ko rong
         
         do {
             printf("Nhap don vi tinh: ");
@@ -206,7 +208,7 @@ void updateProduct() {
 	
 	for(int i=0; i<productCount; i++){    //tim ID
 		if( strcmp(id, prd[i].productId) == 0){
-			found = i;
+			found = i; // tim vi tri
 			break;
 		}
 	}	
@@ -327,7 +329,7 @@ void searchProduct(){
 		strcpy(idLower, prd[i].productId);
 		toLowerCase(idLower);
 		   
-		if( strcmp(keyLower, idLower) == 0 || strstr(nameLower, keyLower) != NULL){
+		if( strcmp(keyLower, idLower) == 0 || strstr(nameLower, keyLower) != NULL){  //NULL: con tro rong
 			printf("| %-10s | %-20s | %-8s | %-5d | %-12s |\n", prd[i].productId, prd[i].name, 
 			prd[i].unit, prd[i].qty, prd[i].status == 1 ? "Con su dung" : "Het han");
 			found = 1;
@@ -400,8 +402,8 @@ void sortingProduct(){
 		
 		if(choice == 1){
 			printf("\n<<-----SAP XEP THEO TEN----->>\n");
-			for (int i = 0; i<productCount; i++){
-				for( int j = i+1; j<productCount; j++){
+			for (int i = 0; i<productCount; i++){    //selection sort  // vòng i de chon vi tri dat phan tu dung
+				for( int j = i+1; j<productCount; j++){ // vòng j de tim phan tu nho phia sau
 					if(strcmp(prd[i].name,prd[j].name) > 0){
 						struct Product temp = prd[i];
 						prd[i] = prd[j];
@@ -454,7 +456,7 @@ void transactionProduct() {
     }
 
     if (strcmp(type, "IN") != 0 && strcmp(type, "OUT") != 0) {
-        printf("Loai giao dich khong hop le. Chi chap nhan IN/OUT.\n");
+        printf("Loai giao dich khong hop le. Chi chon IN/OUT.\n");
         return;
     }
 
@@ -498,6 +500,7 @@ void transactionProduct() {
 	    if (strcmp(type, "IN") == 0) {
 	        prd[found].qty += amount;
 	        printf("===>> Nhap hang thanh cong!\n");
+	        success = 1;
 	    }
 	    // Xu ly xuat hang
 	    else if (strcmp(type, "OUT") == 0) {
@@ -507,6 +510,7 @@ void transactionProduct() {
 	        }
 	        prd[found].qty -= amount;
 	        printf("===>> Xuat hang thanh cong!\n");
+	        success = 1;
 	    }
 
 
@@ -515,7 +519,7 @@ void transactionProduct() {
     	sprintf(trans[transCount].transId, "GD%03d", transCount + 1);
         strcpy(trans[transCount].productId, id);
         strcpy(trans[transCount].type, type);
-        strcpy(trans[transCount].date, "27/11/2025");
+        strcpy(trans[transCount].date, "02/12/2025");
         transCount++;
     }
 }
@@ -523,7 +527,7 @@ void transactionProduct() {
 //8. LICH SU NHAP/XUAT
 void historyTransaction(){
     char id[10];
-    int found = 0;       // kiem tra co giao dich không
+    int found = 0;       // kiem tra co giao dich kh?ng
     int index = 0;
 
     printf("\n<<----- LICH SU GIAO DICH ----->>\n");
@@ -539,7 +543,7 @@ void historyTransaction(){
 
     printf("\n<<--- Lich su giao dich cua ma hang %s --->>\n", id);
 
-    // duyet toan bo transaction
+    // duyet de tim lich su giao dich
     for(int i = 0; i < transCount; i++){
         if(strcmp(trans[i].productId, id) == 0){
             // in khi gap giao dich dau tien
